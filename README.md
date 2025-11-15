@@ -20,6 +20,10 @@ This component is part of a component library. To use it in your project:
 npm install
 ```
 
+```bash
+npm run start
+```
+
 ## Usage
 
 ### Basic Usage
