@@ -1,46 +1,215 @@
-# Getting Started with Create React App
+# React Calendar Component
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A reusable calendar component for React applications that displays a monthly calendar view with date highlighting.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- 📅 Display monthly calendar for any given date
+- 🎯 Highlight specific dates
+- 📱 Responsive and lightweight
+- 🎨 Styled with TailwindCSS
+- ✅ Fully tested with React Testing Library
+- 📝 TypeScript support
+- ⚡ Performance optimized with React hooks
 
-### `npm start`
+## Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This component is part of a component library. To use it in your project:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```bash
+npm install
+```
 
-### `npm test`
+## Usage
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Basic Usage
 
-### `npm run build`
+```tsx
+import Calendar from "./Calendar";
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+function App() {
+  return <Calendar date="03/11/2025" />;
+}
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### With Date Object
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```tsx
+import Calendar from "./Calendar";
 
-### `npm run eject`
+function App() {
+  const dateObj = new Date(2025, 10, 3); // November 3, 2025
+  return <Calendar date={dateObj} />;
+}
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### With Default Date (Current Date)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```tsx
+import Calendar from "./Calendar";
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+function App() {
+  return <Calendar />; // Uses current date
+}
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Props
 
-## Learn More
+| Prop   | Type             | Default      | Description                                       |
+| ------ | ---------------- | ------------ | ------------------------------------------------- |
+| `date` | `string \| Date` | `new Date()` | The date to display and highlight in the calendar |
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Date Format
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+When using a string date, use the **DD/MM/YYYY** format:
+
+- ✅ `"03/11/2025"` - 3rd November 2025
+- ✅ `"23/03/2020"` - 23rd March 2020
+- ✅ `"15/01/2024"` - 15th January 2024
+- ❌ `"11/03/2025"` - This would be interpreted as 11th March, not November 3rd
+
+## Examples
+
+### November 2025 Calendar
+
+```tsx
+<Calendar date="03/11/2025" />
+```
+
+Displays November 2025 with the 3rd highlighted.
+
+### March 2020 Calendar
+
+```tsx
+<Calendar date="23/03/2020" />
+```
+
+Displays March 2020 with the 23rd highlighted.
+
+### Leap Year Support
+
+```tsx
+<Calendar date="29/02/2024" />
+```
+
+Correctly handles leap years and displays February with 29 days.
+
+## Component Structure
+
+```
+Calendar/
+├── Calendar.tsx       # Main component
+├── Calendar.test.tsx  # Comprehensive test suite
+├── utils.ts          # Utility functions
+├── App.tsx           # Example usage
+└── README.md         # Documentation
+```
+
+## Styling
+
+The component uses TailwindCSS for styling with a dark theme:
+
+- **Background**: Dark gray (`bg-gray-950`)
+- **Text**: Blue (`text-blue-300`)
+- **Highlighted Date**: Blue background with dark text (`bg-blue-300`, `text-gray-950`)
+- **Font**: Monospace (`font-mono`)
+
+### Customization
+
+To customize the appearance, modify the className properties in `Calendar.tsx`:
+
+```tsx
+// Current styling
+<div className="bg-gray-950 text-blue-300 font-mono p-2 w-[14rem]">
+
+// Custom styling example
+<div className="bg-white text-gray-800 p-4 rounded-lg shadow-lg">
+```
+
+## Testing
+
+The component includes a comprehensive test suite covering:
+
+- ✅ Basic rendering
+- ✅ Month and year display
+- ✅ Date highlighting
+- ✅ Calendar days display
+- ✅ Different date formats
+- ✅ Edge cases (leap years, month transitions)
+- ✅ Week alignment
+- ✅ Styling and classes
+- ✅ Component reusability
+
+### Running Tests
+
+```bash
+npm test
+```
+
+### Test Coverage
+
+```bash
+npm test -- --coverage
+```
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Performance
+
+The component uses React's `useMemo` hook to optimize performance by memoizing:
+
+- Calendar date parsing
+- Month name calculation
+- Year extraction
+- Week days generation
+- Calendar days generation
+
+This ensures that expensive calculations only run when the `date` prop changes.
+
+## Accessibility
+
+The component includes `data-testid` attributes for testing and can be enhanced with ARIA labels for improved screen reader support.
+
+## Technical Decisions
+
+### Why DD/MM/YYYY Format?
+
+This format is commonly used internationally and matches the visual representation (day → month → year).
+
+### Why useMemo?
+
+All derived values are memoized to prevent unnecessary recalculations on re-renders, improving performance especially when the component is used multiple times.
+
+### Why Separate Utility Functions?
+
+Separating calendar logic into pure utility functions:
+
+- Makes code more testable
+- Improves code reusability
+- Keeps the component focused on presentation
+- Follows separation of concerns principle
+
+## API Reference
+
+### Utility Functions
+
+See `utils.ts` for detailed documentation on:
+
+- `getMonthName(date)` - Get the month name for a date
+- `getYear(date)` - Get the year for a date
+- `getFormattedDate(date)` - Convert string or Date to Date object
+- `getWeekDays()` - Get weekday abbreviations
+- `generateCalendarDays(date)` - Generate calendar grid
+- `checkDateEqual(date1, date2)` - Compare two dates
+- `checkMonthEqual(date1, date2)` - Compare months of two dates
+
+## Version
+
+1.0.0
+
+---
